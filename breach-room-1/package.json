@@ -1,0 +1,29 @@
+{
+  "name": "solbreach-breach-room-1",
+  "version": "0.1.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "build": "anchor build",
+    "test": "anchor test",
+    "test:anchor": "ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts",
+    "lint": "prettier \"**/*.{ts,js,json,toml,md}\" --check",
+    "format": "prettier \"**/*.{ts,js,json,toml,md}\" --write"
+  },
+  "dependencies": {
+    "@anchor-lang/core": "1.1.2"
+  },
+  "devDependencies": {
+    "@types/chai": "^5.2.3",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^24.0.0",
+    "chai": "^5.2.0",
+    "mocha": "^11.7.0",
+    "prettier": "^3.6.2",
+    "ts-mocha": "^11.1.0",
+    "typescript": "^5.9.0"
+  }
+}

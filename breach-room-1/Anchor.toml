@@ -1,0 +1,18 @@
+[toolchain]
+anchor_version = "1.1.2"
+solana_version = "3.1.10"
+package_manager = "npm"
+
+[features]
+resolution = true
+skip-lint = false
+
+[programs.localnet]
+breach_room_1 = "CZcRKbKx41T6ueFMDWpdz2PiLSPFaDoyKqqWVSdH2uhN"
+
+[provider]
+cluster = "localnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "npm run test:anchor"
