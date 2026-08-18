@@ -1,0 +1,56 @@
+name: Submission Policy
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  submission-policy:
+    name: submission-policy
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate submission boundary
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+
+          mapfile -t changes < <(
+            git diff --name-status "$BASE_SHA" "$HEAD_SHA"
+          )
+
+          if [[ "${#changes[@]}" -ne 1 ]]; then
+            echo "Exactly one changed file is required."
+            exit 1
+          fi
+
+          IFS=$'\t' read -r status path <<< "${changes[0]}"
+
+          if [[ "$status" != "A" ]]; then
+            echo "The submission must be a newly added file."
+            exit 1
+          fi
+
+          if [[ ! "$path" =~ ^submissions/breach-room-1/[^/]+\.md$ ]]; then
+            echo "Invalid submission path."
+            exit 1
+          fi
+
+          size="$(wc -c < "$path")"
+          if (( size > 16000 )); then
+            echo "Submission exceeds the 16,000-byte limit."
+            exit 1
+          fi
+
+          echo "Submission boundary is valid."
